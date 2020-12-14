@@ -75,7 +75,11 @@ const Restaurants : FC = (props) : ReactElement => {
             })
         }
         else{
-            listItems = restaurants.filter(listItem => listItem.name.toLowerCase().indexOf(searchString.toLowerCase()) > -1).map((listItem, index) => {
+            listItems = restaurants.filter(listItem => 
+                listItem.name.toLowerCase().indexOf(searchString.toLowerCase()) > -1 ||
+                listItem.city.toLowerCase().indexOf(searchString.toLowerCase()) > -1 ||
+                listItem.genre.toLowerCase().indexOf(searchString.toLowerCase()) > -1
+            ).map((listItem, index) => {
                 return <RestaurantsListItem key={listItem.telephone.toString()} restaurant={listItem}></RestaurantsListItem>
             })
         }
