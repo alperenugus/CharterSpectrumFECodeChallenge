@@ -1,4 +1,5 @@
 import React, {FC, ReactElement} from 'react';
+import './RestaurantsListItem.css'
 import Restaurant from '../../model/Restaurant';
 
 interface RestaurantProps {

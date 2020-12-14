@@ -1,5 +1,6 @@
 import React, {FC, ReactElement} from 'react';
-import axios from 'axios'
+import './Restaurants.css';
+import axios from 'axios';
 import Restaurant from '../../model/Restaurant';
 import RestaurantsListItem from '../RestaurantsListItem/RestaurantsListItem';
 import Search from '../Search/Search';
@@ -79,6 +80,14 @@ const Restaurants : FC = (props) : ReactElement => {
             })
         }
 
+        if(listItems.length === 0){
+            return (<div>
+                        <Search search='' onSearch={handleSearch}></Search>
+                        No results were found.
+                    </div>
+            );
+        }
+
         return (
             <div>
                 <Search search='' onSearch={handleSearch}></Search>
@@ -86,7 +95,7 @@ const Restaurants : FC = (props) : ReactElement => {
                     <tbody>{listItems}</tbody>
                 </table>
             </div>
-        )
+        );
     };
 
 }

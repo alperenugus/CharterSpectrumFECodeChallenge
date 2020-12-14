@@ -1,4 +1,4 @@
-import React, {FC, ReactElement} from 'react';
+import React, {FC, ReactElement, useEffect} from 'react';
 
 interface SearchProps {
     search: string;
@@ -10,6 +10,10 @@ const Search : FC<SearchProps> = ({search, onSearch}: SearchProps) : ReactElemen
     const [searchString, setsearchString]: [string, (searchString: string) => void] = React.useState(
         ''
     );
+
+    useEffect(() => {
+        handleSearch();
+    })
 
     const handleSearch = () => {
         onSearch(searchString);
@@ -24,7 +28,7 @@ const Search : FC<SearchProps> = ({search, onSearch}: SearchProps) : ReactElemen
                     className='form-control'
                     placeholder='Search'
                     style={{ padding: 20, margin: 10 }}
-                    onChange={(text) => { setsearchString(text.target.value); handleSearch();}}
+                    onChange={(text) => { setsearchString(text.target.value); }}
                 />
             </form>
         </div>

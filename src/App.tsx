@@ -1,10 +1,14 @@
 import React from 'react';
 import './App.css';
 import Restaurants from './components/Restaurants/Restaurants';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 function App() {
   return (
-    <Restaurants></Restaurants>
+    <div className='container'>
+      <Restaurants></Restaurants>
+    </div>
   );
 }
 
