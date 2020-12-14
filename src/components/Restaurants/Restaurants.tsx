@@ -1,6 +1,8 @@
 import React, {FC, ReactElement} from 'react';
 import axios from 'axios'
 import Restaurant from '../../model/Restaurant';
+import RestaurantsListItem from '../RestaurantsListItem/RestaurantsListItem';
+import Search from '../Search/Search';
 
 const defaultRestaurants: Restaurant[] = [];
 
@@ -18,7 +20,11 @@ const Restaurants : FC = (props) : ReactElement => {
 
     const [error, setError]: [string, (error: string) => void] = React.useState(
         ''
-      );
+    );
+
+    const [searchString, setsearchString]: [string, (searchString: string) => void] = React.useState(
+        ''
+    );
 
     React.useEffect(() => {
         axios
@@ -29,6 +35,12 @@ const Restaurants : FC = (props) : ReactElement => {
               }
           })
           .then((response) => {
+            // Sort alphabetically
+            response.data.sort(function(a, b){
+                if(a.name < b.name) { return -1; }
+                if(a.name > b.name) { return 1; }
+                return 0;
+            })
             setRestaurants(response.data);
             setLoading(false);
           })
@@ -42,7 +54,12 @@ const Restaurants : FC = (props) : ReactElement => {
           });
       }, []);
 
-      console.log(restaurants[0]);
+    //   console.log(restaurants[0]);
+
+    const handleSearch = (str: string) => {
+        setsearchString(str);
+        console.log("Search string is:" + str)
+    }
 
 
     if(loading) return <p>Loading...</p>
@@ -51,14 +68,26 @@ const Restaurants : FC = (props) : ReactElement => {
 
         var listItems = [];
 
-        
+        if(searchString === ''){
+            listItems = restaurants.map((listItem, index) => {
+                return <RestaurantsListItem key={listItem.telephone.toString()} restaurant={listItem}></RestaurantsListItem>
+            })
+        }
+        else{
+            listItems = restaurants.filter(listItem => listItem.name.toLowerCase().indexOf(searchString.toLowerCase()) > -1).map((listItem, index) => {
+                return <RestaurantsListItem key={listItem.telephone.toString()} restaurant={listItem}></RestaurantsListItem>
+            })
+        }
 
-
-
-        return <div></div>
-    }
-    
-    ;
+        return (
+            <div>
+                <Search search='' onSearch={handleSearch}></Search>
+                <table>
+                    <tbody>{listItems}</tbody>
+                </table>
+            </div>
+        )
+    };
 
 }
 

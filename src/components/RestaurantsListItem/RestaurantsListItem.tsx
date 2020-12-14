@@ -1,9 +1,20 @@
 import React, {FC, ReactElement} from 'react';
+import Restaurant from '../../model/Restaurant';
 
-const RestaurantsListItem : FC = (props) : ReactElement => {
+interface RestaurantProps {
+    restaurant: Restaurant;
+}
 
-
-    return <div>Hello world</div>;
+const RestaurantsListItem : FC<RestaurantProps> = ({restaurant}: RestaurantProps) : ReactElement => {
+    return(
+        <tr>
+            <td>{restaurant.name}</td>
+            <td>{restaurant.city}</td>
+            <td>{restaurant.state}</td>
+            <td>{restaurant.telephone}</td>
+            <td>{restaurant.genre}</td>
+        </tr>
+    );
 
 }
 
