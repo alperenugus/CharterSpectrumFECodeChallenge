@@ -1,6 +1,6 @@
 import React, {FC, ReactElement} from 'react';
 import './RestaurantsListItem.css'
-import Restaurant from '../../model/Restaurant';
+import Restaurant from '../../models/Restaurant';
 
 interface RestaurantProps {
     index: number;

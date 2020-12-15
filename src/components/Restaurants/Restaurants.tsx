@@ -1,7 +1,7 @@
 import React, { FC, ReactElement } from 'react';
 import './Restaurants.css';
 import axios from 'axios';
-import Restaurant from '../../model/Restaurant';
+import Restaurant from '../../models/Restaurant';
 import RestaurantsListItem from '../RestaurantsListItem/RestaurantsListItem';
 import Search from '../Search/Search';
 import states from '../../constants/states';
