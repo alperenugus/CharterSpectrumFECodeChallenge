@@ -42,7 +42,7 @@ const Restaurants: FC = (props): ReactElement => {
     );
 
     const [pageNum, setpageNum]: [number, (setpageNum: number) => void] = React.useState(
-        1
+        0
     );
 
     const dropDownStates = states.map((state, index) => {
