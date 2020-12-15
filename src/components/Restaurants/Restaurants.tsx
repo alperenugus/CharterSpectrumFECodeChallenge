@@ -189,7 +189,7 @@ const Restaurants: FC = (props): ReactElement => {
                     </thead>
                     <tbody>{listItems}</tbody>
                 </table>
-                        No results were found.
+                No results were found for state "{stateFilter}" and for genre "{genreFilter}".
             </div>
             );
         }
