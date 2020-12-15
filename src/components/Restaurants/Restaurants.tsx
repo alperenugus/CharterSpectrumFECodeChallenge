@@ -179,7 +179,7 @@ const Restaurants: FC = (props): ReactElement => {
                 <table>
                     <thead>
                         <tr>
-                            <th>Name</th>
+                            <th>Restaurant Name</th>
                             <th>City</th>
                             <th>
                                 <DropdownButton
@@ -191,7 +191,7 @@ const Restaurants: FC = (props): ReactElement => {
                                     {dropDownStates}
                                 </DropdownButton>
                             </th>
-                            <th>Phone</th>
+                            <th>Phone Number</th>
                             <th>
                                 <DropdownButton
                                     alignRight
@@ -218,7 +218,7 @@ const Restaurants: FC = (props): ReactElement => {
                 <table>
                     <thead>
                         <tr>
-                            <th>Name</th>
+                            <th>Restaurant Name</th>
                             <th>City</th>
                             <th>
                                 <DropdownButton
@@ -230,7 +230,7 @@ const Restaurants: FC = (props): ReactElement => {
                                     {dropDownStates}
                                 </DropdownButton>
                             </th>
-                            <th>Phone</th>
+                            <th>Phone Number</th>
                             <th>
                                 <DropdownButton
                                     alignRight

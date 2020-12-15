@@ -1,11 +1,25 @@
 table, table tr{
-    border: 1px solid black;
+    border: 1px solid grey;
     border-collapse: collapse;
     table-layout: fixed;   
     width: 100%;
+    color: white;
 }
 
 table td, table th{
     padding: 1%;
     word-wrap: break-word; 
+}
+
+tbody tr:hover {
+    background: #bdbdbd;
+    color: black;
+}
+
+table{
+    margin-top: 2%;
+    margin-bottom: 2%;
+    padding: 2%;
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0, 0.7); /* Black w/opacity/see-through */
 }
