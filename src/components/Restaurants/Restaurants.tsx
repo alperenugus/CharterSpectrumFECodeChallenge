@@ -8,6 +8,7 @@ import states from '../../constants/states';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import Dropdown from 'react-bootstrap/Dropdown'
 import genres from '../../constants/genres';
+import Pagination from 'react-bootstrap/Pagination'
 
 
 const defaultRestaurants: Restaurant[] = [];
@@ -40,6 +41,18 @@ const Restaurants: FC = (props): ReactElement => {
         'ALL'
     );
 
+    const [pageNum, setpageNum]: [number, (setpageNum: number) => void] = React.useState(
+        1
+    );
+
+    const dropDownStates = states.map((state, index) => {
+        return <Dropdown.Item eventKey={state}>{state}</Dropdown.Item>
+    })
+
+    const dropDownGenres = genres.map((genre, index) => {
+        return <Dropdown.Item eventKey={genre}>{genre}</Dropdown.Item>
+    })
+
     React.useEffect(() => {
         axios
             .get<Restaurant[]>("https://code-challenge.spectrumtoolbox.com/api/restaurants", {
@@ -71,18 +84,23 @@ const Restaurants: FC = (props): ReactElement => {
     //   console.log(restaurants[0]);
 
     const handleSearch = (str: string) => {
-        if (str == null) str = '';      
+        if (str == null) str = '';
         setsearchString(str);
     }
 
     const handleStateFilter = (str: any) => {
-        if (str == null) str = '';      
+        if (str == null) str = '';
         setstateFilter(str);
     }
 
     const handleGenreFilter = (str: any) => {
         if (str == null) str = '';
         setgenreFilter(str);
+    }
+
+    const handlePagination = (page: number) => {
+        window.scrollTo(0, 0);
+        setpageNum(page - 1);
     }
 
     if (loading) return <p>Loading...</p>
@@ -93,51 +111,53 @@ const Restaurants: FC = (props): ReactElement => {
 
         if (searchString === '' && (stateFilter === '' || stateFilter === 'ALL') && (genreFilter === '' || genreFilter === 'ALL')) {
             listItems = restaurants.map((listItem, index) => {
-                return <RestaurantsListItem key={listItem.telephone.toString()} restaurant={listItem}></RestaurantsListItem>
+                return <RestaurantsListItem index={index} key={listItem.telephone.toString()} restaurant={listItem}></RestaurantsListItem>
             })
         }
         else {
             listItems = restaurants.filter(listItem =>
 
+            (
                 (
-                    (
-                        searchString === '' ||
-                        listItem.name.toLowerCase().indexOf(searchString.toLowerCase()) > -1 ||
-                        listItem.city.toLowerCase().indexOf(searchString.toLowerCase()) > -1 ||
-                        listItem.genre.toLowerCase().indexOf(searchString.toLowerCase()) > -1
-                    )
-
-                    &&
-                    
-                    (
-                        stateFilter === 'ALL' ||
-                        listItem.state.toLowerCase().indexOf(stateFilter.toLowerCase()) > -1
-                    )
-
-                    &&
-
-                    (
-                        genreFilter === 'ALL' ||
-                        listItem.genre.toLowerCase().indexOf(genreFilter.toLowerCase()) > -1
-                    )
-
+                    searchString === '' ||
+                    listItem.name.toLowerCase().indexOf(searchString.toLowerCase()) > -1 ||
+                    listItem.city.toLowerCase().indexOf(searchString.toLowerCase()) > -1 ||
+                    listItem.genre.toLowerCase().indexOf(searchString.toLowerCase()) > -1
                 )
+
+                &&
+
+                (
+                    stateFilter === 'ALL' ||
+                    listItem.state.toLowerCase().indexOf(stateFilter.toLowerCase()) > -1
+                )
+
+                &&
+
+                (
+                    genreFilter === 'ALL' ||
+                    listItem.genre.toLowerCase().indexOf(genreFilter.toLowerCase()) > -1
+                )
+
+            )
             ).map((listItem, index) => {
-                return <RestaurantsListItem key={listItem.telephone.toString()} restaurant={listItem}></RestaurantsListItem>
+                return <RestaurantsListItem index={index} key={listItem.telephone.toString()} restaurant={listItem}></RestaurantsListItem>
             })
         }
 
+        let items = [];
+        for (let number = 1; number <= listItems.length / 10 + 1; number++) {
+            items.push(
+                <Pagination.Item key={number} onClick={() => {handlePagination(number)}}>
+                    {number}
+                </Pagination.Item>,
+            );
+        }
 
-        var dropDownStates = states.map((state, index) => {
-            return <Dropdown.Item eventKey={state}>{state}</Dropdown.Item>
-        })
-
-        var dropDownGenres = genres.map((genre, index) => {
-            return <Dropdown.Item eventKey={genre}>{genre}</Dropdown.Item>
-        })
+        var paginatedListItems = listItems.slice( pageNum * 10, (pageNum * 10) + 10);
 
         if (listItems.length === 0) {
-            return (<div>
+            return (<div style={{textAlign: "center"}}>
                 <Search search='' onSearch={handleSearch}></Search>
                 <table>
                     <thead>
@@ -147,7 +167,7 @@ const Restaurants: FC = (props): ReactElement => {
                             <th>
                                 <DropdownButton
                                     alignRight
-                                    title="State"
+                                    title={`State: ` + stateFilter}
                                     id="dropdown-menu-align-right"
                                     onSelect={handleStateFilter}
                                 >
@@ -158,7 +178,7 @@ const Restaurants: FC = (props): ReactElement => {
                             <th>
                                 <DropdownButton
                                     alignRight
-                                    title="Genre"
+                                    title={`Genre: ` + genreFilter}
                                     id="dropdown-menu-align-right"
                                     onSelect={handleGenreFilter}
                                 >
@@ -185,7 +205,7 @@ const Restaurants: FC = (props): ReactElement => {
                             <th>
                                 <DropdownButton
                                     alignRight
-                                    title="State"
+                                    title={`State: ` + stateFilter}
                                     id="dropdown-menu-align-right"
                                     onSelect={handleStateFilter}
                                 >
@@ -196,7 +216,7 @@ const Restaurants: FC = (props): ReactElement => {
                             <th>
                                 <DropdownButton
                                     alignRight
-                                    title="Genre"
+                                    title={`Genre: ` + genreFilter}
                                     id="dropdown-menu-align-right"
                                     onSelect={handleGenreFilter}
                                 >
@@ -205,8 +225,12 @@ const Restaurants: FC = (props): ReactElement => {
                             </th>
                         </tr>
                     </thead>
-                    <tbody>{listItems}</tbody>
+                    {paginatedListItems.length > 0 &&
+                        <tbody>{paginatedListItems}</tbody>
+                    }
                 </table>
+
+                <Pagination>{items}</Pagination>
             </div>
         );
     };

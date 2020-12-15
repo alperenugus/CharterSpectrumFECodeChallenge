@@ -3,13 +3,14 @@ import './RestaurantsListItem.css'
 import Restaurant from '../../model/Restaurant';
 
 interface RestaurantProps {
+    index: number;
     restaurant: Restaurant;
 }
 
-const RestaurantsListItem : FC<RestaurantProps> = ({restaurant}: RestaurantProps) : ReactElement => {
+const RestaurantsListItem : FC<RestaurantProps> = ({index, restaurant}: RestaurantProps) : ReactElement => {
     return(
         <tr>
-            <td>{restaurant.name}</td>
+            <td>{index + 1}.&ensp;{restaurant.name}</td>
             <td>{restaurant.city}</td>
             <td>{restaurant.state}</td>
             <td>{restaurant.telephone}</td>
