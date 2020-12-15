@@ -17,6 +17,7 @@ const Search : FC<SearchProps> = ({search, onSearch}: SearchProps) : ReactElemen
         handleSearch();
     })
 
+    // Using the props from the parent component, search through items for the searchString
     const handleSearch = () => {
         onSearch(searchString);
     }

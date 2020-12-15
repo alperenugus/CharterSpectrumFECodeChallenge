@@ -53,10 +53,13 @@ const Restaurants: FC = (props): ReactElement => {
         return <Dropdown.Item eventKey={genre}>{genre}</Dropdown.Item>
     })
 
+    // Reset pagination number whenever genreFilter, stateFilter, searchString changes since
+    // the filter result should be shown starting from the first page
     React.useEffect(() => {
         setpageNum(0);
     }, [genreFilter, stateFilter, searchString])
 
+    // Using axios, making a get request to the API, parsing the response, sorting and setting state variables
     React.useEffect(() => {
         axios
             .get<Restaurant[]>("https://code-challenge.spectrumtoolbox.com/api/restaurants", {
@@ -85,7 +88,7 @@ const Restaurants: FC = (props): ReactElement => {
             });
     }, []);
 
-    //   console.log(restaurants[0]);
+    // functions to handle search and filters
 
     const handleSearch = (str: string) => {
         if (str == null) str = '';
@@ -107,23 +110,28 @@ const Restaurants: FC = (props): ReactElement => {
         setpageNum(page - 1);
     }
 
+    // Return block for Restaurants component
     if (loading) return <p>Loading...</p>
     else if (error !== '') return <p>{error}</p>
     else {
 
+        // Empty array to keep RestaurantsListItems after filters applied
         var listItems = [];
 
+        // Initial state (No filters or search)
         if (searchString === '' && (stateFilter === '' || stateFilter === 'ALL') && (genreFilter === '' || genreFilter === 'ALL')) {
             listItems = restaurants.map((listItem, index) => {
                 return <RestaurantsListItem index={index} key={listItem.telephone.toString()} restaurant={listItem}></RestaurantsListItem>
             })
         }
         else {
+            // Multiple filtering wrt search, state and genres
             listItems = restaurants.filter(listItem =>
 
             (
                 (
                     searchString === '' ||
+                    // If the search string appears in name, city or genre
                     listItem.name.toLowerCase().indexOf(searchString.toLowerCase()) > -1 ||
                     listItem.city.toLowerCase().indexOf(searchString.toLowerCase()) > -1 ||
                     listItem.genre.toLowerCase().indexOf(searchString.toLowerCase()) > -1
@@ -133,6 +141,7 @@ const Restaurants: FC = (props): ReactElement => {
 
                 (
                     stateFilter === 'ALL' ||
+                    // If the states are the same with the state filter
                     listItem.state.toLowerCase().indexOf(stateFilter.toLowerCase()) > -1
                 )
 
@@ -140,6 +149,7 @@ const Restaurants: FC = (props): ReactElement => {
 
                 (
                     genreFilter === 'ALL' ||
+                    // If the genres are the same with the genre filter
                     listItem.genre.toLowerCase().indexOf(genreFilter.toLowerCase()) > -1
                 )
 
@@ -149,6 +159,7 @@ const Restaurants: FC = (props): ReactElement => {
             })
         }
 
+        // Pagination implementation wrt lisItems length
         let items = [];
         for (let number = 1; number <= listItems.length / 10 + 1; number++) {
             items.push(
@@ -158,8 +169,10 @@ const Restaurants: FC = (props): ReactElement => {
             );
         }
 
+        // Subarray of listItems to be able show blocks of 10 in every page
         var paginatedListItems = listItems.slice(pageNum * 10, (pageNum * 10) + 10);
 
+        // No result after search or filters
         if (listItems.length === 0) {
             return (<div style={{textAlign: "center"}}>
                 <Search search='' onSearch={handleSearch}></Search>
@@ -198,6 +211,7 @@ const Restaurants: FC = (props): ReactElement => {
             );
         }
 
+        // Return table with filtered and searched restaurants
         return (
             <div>
                 <Search search='' onSearch={handleSearch}></Search>
