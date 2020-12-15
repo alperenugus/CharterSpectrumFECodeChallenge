@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/charterspectrumfecodechallenge/static/css/main.da1ae137.chunk.css",
+    "main.js": "/charterspectrumfecodechallenge/static/js/main.437d0509.chunk.js",
+    "main.js.map": "/charterspectrumfecodechallenge/static/js/main.437d0509.chunk.js.map",
+    "runtime-main.js": "/charterspectrumfecodechallenge/static/js/runtime-main.b8cf2779.js",
+    "runtime-main.js.map": "/charterspectrumfecodechallenge/static/js/runtime-main.b8cf2779.js.map",
+    "static/css/2.20aa2d7b.chunk.css": "/charterspectrumfecodechallenge/static/css/2.20aa2d7b.chunk.css",
+    "static/js/2.93054c4d.chunk.js": "/charterspectrumfecodechallenge/static/js/2.93054c4d.chunk.js",
+    "static/js/2.93054c4d.chunk.js.map": "/charterspectrumfecodechallenge/static/js/2.93054c4d.chunk.js.map",
+    "static/js/3.bb8d4229.chunk.js": "/charterspectrumfecodechallenge/static/js/3.bb8d4229.chunk.js",
+    "static/js/3.bb8d4229.chunk.js.map": "/charterspectrumfecodechallenge/static/js/3.bb8d4229.chunk.js.map",
+    "index.html": "/charterspectrumfecodechallenge/index.html",
+    "static/css/2.20aa2d7b.chunk.css.map": "/charterspectrumfecodechallenge/static/css/2.20aa2d7b.chunk.css.map",
+    "static/css/main.da1ae137.chunk.css.map": "/charterspectrumfecodechallenge/static/css/main.da1ae137.chunk.css.map",
+    "static/js/2.93054c4d.chunk.js.LICENSE.txt": "/charterspectrumfecodechallenge/static/js/2.93054c4d.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.b8cf2779.js",
+    "static/css/2.20aa2d7b.chunk.css",
+    "static/js/2.93054c4d.chunk.js",
+    "static/css/main.da1ae137.chunk.css",
+    "static/js/main.437d0509.chunk.js"
+  ]
+}
