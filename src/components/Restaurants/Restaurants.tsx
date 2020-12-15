@@ -225,7 +225,7 @@ const Restaurants: FC = (props): ReactElement => {
                             </th>
                         </tr>
                     </thead>
-                    {paginatedListItems.length > 0 &&
+                    {paginatedListItems.length / 10 + 1 > 1 &&
                         <tbody>{paginatedListItems}</tbody>
                     }
                 </table>
