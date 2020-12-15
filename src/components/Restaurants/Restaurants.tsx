@@ -10,7 +10,6 @@ import Dropdown from 'react-bootstrap/Dropdown'
 import genres from '../../constants/genres';
 
 
-
 const defaultRestaurants: Restaurant[] = [];
 
 
@@ -72,16 +71,17 @@ const Restaurants: FC = (props): ReactElement => {
     //   console.log(restaurants[0]);
 
     const handleSearch = (str: string) => {
+        if (str == null) str = '';      
         setsearchString(str);
     }
 
     const handleStateFilter = (str: any) => {
-        if (str == null) str = ''
+        if (str == null) str = '';      
         setstateFilter(str);
     }
 
     const handleGenreFilter = (str: any) => {
-        if (str == null) str = ''
+        if (str == null) str = '';
         setgenreFilter(str);
     }
 
@@ -98,30 +98,30 @@ const Restaurants: FC = (props): ReactElement => {
         }
         else {
             listItems = restaurants.filter(listItem =>
+
                 (
-                    searchString !== '' && (
+                    (
+                        searchString === '' ||
                         listItem.name.toLowerCase().indexOf(searchString.toLowerCase()) > -1 ||
                         listItem.city.toLowerCase().indexOf(searchString.toLowerCase()) > -1 ||
                         listItem.genre.toLowerCase().indexOf(searchString.toLowerCase()) > -1
                     )
-                )
 
-                ||
-
-                (
-                    stateFilter !== '' && (
+                    &&
+                    
+                    (
+                        stateFilter === 'ALL' ||
                         listItem.state.toLowerCase().indexOf(stateFilter.toLowerCase()) > -1
                     )
-                )
 
-                ||
+                    &&
 
-                (
-                    genreFilter !== '' && (
+                    (
+                        genreFilter === 'ALL' ||
                         listItem.genre.toLowerCase().indexOf(genreFilter.toLowerCase()) > -1
                     )
-                )
 
+                )
             ).map((listItem, index) => {
                 return <RestaurantsListItem key={listItem.telephone.toString()} restaurant={listItem}></RestaurantsListItem>
             })
