@@ -1,4 +1,6 @@
 import React, {FC, ReactElement, useEffect} from 'react';
+import './Search.css'
+
 
 interface SearchProps {
     search: string;

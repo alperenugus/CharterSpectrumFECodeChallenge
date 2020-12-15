@@ -1,18 +1,24 @@
-import React, {FC, ReactElement} from 'react';
+import React, { FC, ReactElement } from 'react';
 import './Restaurants.css';
 import axios from 'axios';
 import Restaurant from '../../model/Restaurant';
 import RestaurantsListItem from '../RestaurantsListItem/RestaurantsListItem';
 import Search from '../Search/Search';
+import states from '../../constants/states';
+import DropdownButton from 'react-bootstrap/DropdownButton';
+import Dropdown from 'react-bootstrap/Dropdown'
+import genres from '../../constants/genres';
+
+
 
 const defaultRestaurants: Restaurant[] = [];
 
 
-const Restaurants : FC = (props) : ReactElement => {
+const Restaurants: FC = (props): ReactElement => {
 
     const [restaurants, setRestaurants]: [Restaurant[], (restaurants: Restaurant[]) => void] = React.useState(
         defaultRestaurants
-      );
+    );
 
     const [loading, setLoading]: [
         boolean,
@@ -27,68 +33,144 @@ const Restaurants : FC = (props) : ReactElement => {
         ''
     );
 
+    const [stateFilter, setstateFilter]: [string, (stateFilter: string) => void] = React.useState(
+        'ALL'
+    );
+
+    const [genreFilter, setgenreFilter]: [string, (genreFilter: string) => void] = React.useState(
+        'ALL'
+    );
+
     React.useEffect(() => {
         axios
-          .get<Restaurant[]>("https://code-challenge.spectrumtoolbox.com/api/restaurants", {
+            .get<Restaurant[]>("https://code-challenge.spectrumtoolbox.com/api/restaurants", {
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": "Api-Key q3MNxtfep8Gt"
-              }
-          })
-          .then((response) => {
-            // Sort alphabetically
-            response.data.sort(function(a, b){
-                if(a.name < b.name) { return -1; }
-                if(a.name > b.name) { return 1; }
-                return 0;
+                }
             })
-            setRestaurants(response.data);
-            setLoading(false);
-          })
-          .catch(ex => {
-            const error =
-            ex.response.status === 404
-              ? "Resource not found"
-              : "An unexpected error has occurred";
-            setError(error);
-            setLoading(false);
-          });
-      }, []);
+            .then((response) => {
+                // Sort alphabetically
+                response.data.sort(function (a, b) {
+                    if (a.name < b.name) { return -1; }
+                    if (a.name > b.name) { return 1; }
+                    return 0;
+                })
+                setRestaurants(response.data);
+                setLoading(false);
+            })
+            .catch(ex => {
+                const error =
+                    ex.response.status === 404
+                        ? "Resource not found"
+                        : "An unexpected error has occurred";
+                setError(error);
+                setLoading(false);
+            });
+    }, []);
 
     //   console.log(restaurants[0]);
 
     const handleSearch = (str: string) => {
         setsearchString(str);
-        console.log("Search string is:" + str)
     }
 
+    const handleStateFilter = (str: any) => {
+        if (str == null) str = ''
+        setstateFilter(str);
+    }
 
-    if(loading) return <p>Loading...</p>
-    else if(error !== '') return <p>{error}</p>
+    const handleGenreFilter = (str: any) => {
+        if (str == null) str = ''
+        setgenreFilter(str);
+    }
+
+    if (loading) return <p>Loading...</p>
+    else if (error !== '') return <p>{error}</p>
     else {
 
         var listItems = [];
 
-        if(searchString === ''){
+        if (searchString === '' && (stateFilter === '' || stateFilter === 'ALL') && (genreFilter === '' || genreFilter === 'ALL')) {
             listItems = restaurants.map((listItem, index) => {
                 return <RestaurantsListItem key={listItem.telephone.toString()} restaurant={listItem}></RestaurantsListItem>
             })
         }
-        else{
-            listItems = restaurants.filter(listItem => 
-                listItem.name.toLowerCase().indexOf(searchString.toLowerCase()) > -1 ||
-                listItem.city.toLowerCase().indexOf(searchString.toLowerCase()) > -1 ||
-                listItem.genre.toLowerCase().indexOf(searchString.toLowerCase()) > -1
+        else {
+            listItems = restaurants.filter(listItem =>
+                (
+                    searchString !== '' && (
+                        listItem.name.toLowerCase().indexOf(searchString.toLowerCase()) > -1 ||
+                        listItem.city.toLowerCase().indexOf(searchString.toLowerCase()) > -1 ||
+                        listItem.genre.toLowerCase().indexOf(searchString.toLowerCase()) > -1
+                    )
+                )
+
+                ||
+
+                (
+                    stateFilter !== '' && (
+                        listItem.state.toLowerCase().indexOf(stateFilter.toLowerCase()) > -1
+                    )
+                )
+
+                ||
+
+                (
+                    genreFilter !== '' && (
+                        listItem.genre.toLowerCase().indexOf(genreFilter.toLowerCase()) > -1
+                    )
+                )
+
             ).map((listItem, index) => {
                 return <RestaurantsListItem key={listItem.telephone.toString()} restaurant={listItem}></RestaurantsListItem>
             })
         }
 
-        if(listItems.length === 0){
+
+        var dropDownStates = states.map((state, index) => {
+            return <Dropdown.Item eventKey={state}>{state}</Dropdown.Item>
+        })
+
+        var dropDownGenres = genres.map((genre, index) => {
+            return <Dropdown.Item eventKey={genre}>{genre}</Dropdown.Item>
+        })
+
+        if (listItems.length === 0) {
             return (<div>
-                        <Search search='' onSearch={handleSearch}></Search>
+                <Search search='' onSearch={handleSearch}></Search>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>City</th>
+                            <th>
+                                <DropdownButton
+                                    alignRight
+                                    title="State"
+                                    id="dropdown-menu-align-right"
+                                    onSelect={handleStateFilter}
+                                >
+                                    {dropDownStates}
+                                </DropdownButton>
+                            </th>
+                            <th>Phone</th>
+                            <th>
+                                <DropdownButton
+                                    alignRight
+                                    title="Genre"
+                                    id="dropdown-menu-align-right"
+                                    onSelect={handleGenreFilter}
+                                >
+                                    {dropDownGenres}
+                                </DropdownButton>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>{listItems}</tbody>
+                </table>
                         No results were found.
-                    </div>
+            </div>
             );
         }
 
@@ -96,6 +178,33 @@ const Restaurants : FC = (props) : ReactElement => {
             <div>
                 <Search search='' onSearch={handleSearch}></Search>
                 <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>City</th>
+                            <th>
+                                <DropdownButton
+                                    alignRight
+                                    title="State"
+                                    id="dropdown-menu-align-right"
+                                    onSelect={handleStateFilter}
+                                >
+                                    {dropDownStates}
+                                </DropdownButton>
+                            </th>
+                            <th>Phone</th>
+                            <th>
+                                <DropdownButton
+                                    alignRight
+                                    title="Genre"
+                                    id="dropdown-menu-align-right"
+                                    onSelect={handleGenreFilter}
+                                >
+                                    {dropDownGenres}
+                                </DropdownButton>
+                            </th>
+                        </tr>
+                    </thead>
                     <tbody>{listItems}</tbody>
                 </table>
             </div>

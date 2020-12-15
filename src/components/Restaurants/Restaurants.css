@@ -1,8 +1,12 @@
-table{
+table, table tr{
     border: 1px solid black;
     border-collapse: collapse;
+    width: 100%;
+    table-layout: fixed;   
 }
 
-table tr {
-    border: 1px solid #000;
+table td{
+    padding: 1%;
+    word-wrap: break-word; 
+
 }
