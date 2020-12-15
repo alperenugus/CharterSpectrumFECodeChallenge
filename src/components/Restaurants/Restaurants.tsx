@@ -54,6 +54,10 @@ const Restaurants: FC = (props): ReactElement => {
     })
 
     React.useEffect(() => {
+        setpageNum(0);
+    }, [genreFilter, stateFilter, searchString])
+
+    React.useEffect(() => {
         axios
             .get<Restaurant[]>("https://code-challenge.spectrumtoolbox.com/api/restaurants", {
                 headers: {
@@ -154,7 +158,7 @@ const Restaurants: FC = (props): ReactElement => {
             );
         }
 
-        var paginatedListItems = listItems.slice( pageNum * 10, (pageNum * 10) + 10);
+        var paginatedListItems = listItems.slice(pageNum * 10, (pageNum * 10) + 10);
 
         if (listItems.length === 0) {
             return (<div style={{textAlign: "center"}}>
@@ -230,7 +234,7 @@ const Restaurants: FC = (props): ReactElement => {
                     }
                 </table>
 
-                {paginatedListItems.length / 10 + 1 > 1 && 
+                {listItems.length > 10 && 
                     <Pagination>{items}</Pagination>
                 }
 
