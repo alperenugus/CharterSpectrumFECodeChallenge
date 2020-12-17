@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/CharterSpectrumFECodeChallenge/static/css/main.1ef1418d.chunk.css",
-    "main.js": "/CharterSpectrumFECodeChallenge/static/js/main.486770a3.chunk.js",
-    "main.js.map": "/CharterSpectrumFECodeChallenge/static/js/main.486770a3.chunk.js.map",
+    "main.js": "/CharterSpectrumFECodeChallenge/static/js/main.62fe6c0b.chunk.js",
+    "main.js.map": "/CharterSpectrumFECodeChallenge/static/js/main.62fe6c0b.chunk.js.map",
     "runtime-main.js": "/CharterSpectrumFECodeChallenge/static/js/runtime-main.1d57c6e2.js",
     "runtime-main.js.map": "/CharterSpectrumFECodeChallenge/static/js/runtime-main.1d57c6e2.js.map",
     "static/css/2.20aa2d7b.chunk.css": "/CharterSpectrumFECodeChallenge/static/css/2.20aa2d7b.chunk.css",
@@ -21,6 +21,6 @@
     "static/css/2.20aa2d7b.chunk.css",
     "static/js/2.93054c4d.chunk.js",
     "static/css/main.1ef1418d.chunk.css",
-    "static/js/main.486770a3.chunk.js"
+    "static/js/main.62fe6c0b.chunk.js"
   ]
 }
